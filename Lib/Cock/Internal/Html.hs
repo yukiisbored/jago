@@ -39,7 +39,7 @@ translateHtml (HtmlTag tagName attrs child) = mconcat [start, child', end]
                    [] -> mconcat ["<", tagName, ">"]
                    xs -> mconcat ["<", tagName, " ", translateAttributes xs, ">"]
         end    = mconcat ["</", tagName, ">"]
-        child' = T.concat $ map translateHtml child
+        child' = mconcat $ map translateHtml child
 
 -- |Translate a document to proper HTML
 translateDocument :: [Html] -> T.Text
