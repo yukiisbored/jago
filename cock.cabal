@@ -20,10 +20,11 @@ library
   default-language:  Haskell2010
   extensions:        OverloadedStrings
   hs-source-dirs:    Lib
-  exposed-modules:
+  exposed-modules:   Cock.Parser
   other-modules:     Cock.Internal.Html
   build-depends:     base >= 4.13 && < 5,
-                     text
+                     text,
+                     megaparsec
 
 executable cock
   default-language:  Haskell2010
