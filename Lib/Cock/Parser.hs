@@ -1,23 +1,63 @@
-module Cock.Parser where
+-- |Parser that parses cock
+module Cock.Parser (parser) where
 
-import Text.Megaparsec (Parsec)
-import Data.Void (Void)
-import Cock.Internal.Html (HtmlAttribute, Html)
+import Text.Parsec
+    (option,  alphaNum,
+      anyChar,
+      char,
+      spaces,
+      between,
+      eof,
+      many1,
+      manyTill,
+      sepBy,
+      (<|>),
+      many )
+import Text.Parsec.Indent ( indented, withPos, IndentParser )
+
 import qualified Data.Text as T
 
-type Parser = Parsec Void T.Text
+import Cock.Internal.Html (Html(HtmlTag, HtmlLiteral), HtmlAttribute, Html)
 
+-- |Parser definition which uses Text as stream
+type Parser a = IndentParser T.Text () a
+
+-- |Definition for "identifier characters"
+identifierChar :: Parser Char
+identifierChar = alphaNum <|> char '-'
+
+-- |Parse attribute
 attribute :: Parser HtmlAttribute
-attribute = undefined
+attribute = do
+  k <- manyTill identifierChar (char '=')
+  v <- char '"' *> manyTill anyChar (char '"')
 
+  return (T.pack k, T.pack v)
+
+-- |Parse attributes
 attributes :: Parser [HtmlAttribute]
-attributes = undefined
+attributes = between (char '[') (char ']') (sepBy attribute (char ' '))
 
+-- |Parse literals
 literal :: Parser Html
-literal = undefined
+literal = do
+  t <- char '"' *> manyTill anyChar (char '"')
 
+  return $ HtmlLiteral (T.pack t)
+
+-- |Parse tags
 tag :: Parser Html
-tag = undefined
+tag = withPos $ do
+  name <- many1 identifierChar <* spaces
+  attrs <- option [] attributes <* spaces
+  child <- many $ indented *> html <* spaces
 
-document :: Parser [Html]
-document = undefined
+  return $ HtmlTag (T.pack name) attrs child
+
+-- |Parse html
+html :: Parser Html
+html = tag <|> literal <* spaces
+
+-- |Parse cock documents
+parser :: Parser [Html]
+parser = many html <* eof
