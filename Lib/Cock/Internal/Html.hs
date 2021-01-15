@@ -5,7 +5,7 @@
  -}
 module Cock.Internal.Html
   ( HtmlAttribute,
-    Html,
+    Html (..),
     translateAttribute,
     translateAttributes,
     translateHtml,
