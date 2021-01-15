@@ -18,10 +18,12 @@ source-repository head
 
 library
   default-language:  Haskell2010
+  extensions:        OverloadedStrings
   hs-source-dirs:    Lib
   exposed-modules:
-  other-modules:
-  build-depends:     base >= 4.13 && < 5
+  other-modules:     Cock.Internal.Html
+  build-depends:     base >= 4.13 && < 5,
+                     text
 
 executable cock
   default-language:  Haskell2010
