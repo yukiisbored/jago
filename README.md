@@ -77,6 +77,12 @@ cock is free and unencumbered public domain software. For more
 information, see http://unlicense.org/ or the accompanying LICENSE
 file.
 
+## See also
+
+* [pug] (Javascript): Simplified markup language used for HTML
+  templating which inspires cock.
+
 [Nix]: https://nixos.org/nix
 [Cabal]: https://www.haskell.org/cabal/
 [Unlicense]: https://unlicense.org/
+[pug]: https://pugjs.org/api/getting-started.html
