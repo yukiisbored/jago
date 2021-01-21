@@ -3,7 +3,7 @@
  HTML and functions that is able to construct an HTML document from
  the representation.
  -}
-module Cock.Internal.Html
+module Cock.Html
   ( HtmlAttribute,
     Html (..),
     translateAttribute,

@@ -17,7 +17,7 @@ import Text.Parsec.Indent ( indented, withPos, IndentParser )
 
 import qualified Data.Text as T
 
-import Cock.Internal.Html (Html(HtmlTag, HtmlLiteral), HtmlAttribute, Html)
+import Cock.Html (Html(HtmlTag, HtmlLiteral), HtmlAttribute, Html)
 
 -- |Parser definition which uses Text as stream
 type Parser a = IndentParser T.Text () a
