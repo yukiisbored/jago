@@ -1,32 +1,32 @@
--- |Parser that parses cock
+-- | Parser that parses cock
 module Cock.Parser (parser) where
 
-import Text.Parsec
-    (option,  alphaNum,
-      anyChar,
-      char,
-      spaces,
-      between,
-      eof,
-      many1,
-      manyTill,
-      sepBy,
-      (<|>),
-      many )
-import Text.Parsec.Indent ( indented, withPos, IndentParser )
-
+import Cock.Html (Html (HtmlLiteral, HtmlTag), HtmlAttribute)
 import qualified Data.Text as T
+import Text.Parsec
+  ( alphaNum,
+    anyChar,
+    between,
+    char,
+    eof,
+    many,
+    many1,
+    manyTill,
+    option,
+    sepBy,
+    spaces,
+    (<|>),
+  )
+import Text.Parsec.Indent (IndentParser, indented, withPos)
 
-import Cock.Html (Html(HtmlTag, HtmlLiteral), HtmlAttribute, Html)
-
--- |Parser definition which uses Text as stream
+-- | Parser definition which uses Text as stream
 type Parser a = IndentParser T.Text () a
 
--- |Definition for "identifier characters"
+-- | Definition for "identifier characters"
 identifierChar :: Parser Char
 identifierChar = alphaNum <|> char '-'
 
--- |Parse attribute
+-- | Parse attribute
 attribute :: Parser HtmlAttribute
 attribute = do
   k <- manyTill identifierChar (char '=')
@@ -34,18 +34,18 @@ attribute = do
 
   return (T.pack k, T.pack v)
 
--- |Parse attributes
+-- | Parse attributes
 attributes :: Parser [HtmlAttribute]
 attributes = between (char '[') (char ']') (sepBy attribute (char ' '))
 
--- |Parse literals
+-- | Parse literals
 literal :: Parser Html
 literal = do
   t <- char '"' *> manyTill anyChar (char '"')
 
   return $ HtmlLiteral (T.pack t)
 
--- |Parse tags
+-- | Parse tags
 tag :: Parser Html
 tag = withPos $ do
   name <- many1 identifierChar <* spaces
@@ -54,10 +54,10 @@ tag = withPos $ do
 
   return $ HtmlTag (T.pack name) attrs child
 
--- |Parse html
+-- | Parse html
 html :: Parser Html
 html = tag <|> literal <* spaces
 
--- |Parse cock documents
+-- | Parse cock documents
 parser :: Parser [Html]
 parser = many html <* eof
