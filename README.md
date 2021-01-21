@@ -39,6 +39,15 @@ Html [lang="en"]
     H6 "All content on this website is released to the public domain."
 ```
 
+## Using cock
+
+```console
+% cock --input sample.cock --output sample.html
+% cat sample.html
+<!DOCTYPE html><Html lang="en"><Head><Title>Haruhi suzumiya personal
+...
+```
+
 ## Build
 
 ### With [Nix] (recommended)
