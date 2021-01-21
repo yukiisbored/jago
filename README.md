@@ -38,3 +38,36 @@ Html [lang="en"]
     Hr
     H6 "All content on this website is released to the public domain."
 ```
+
+## Build
+
+### With [Nix] (recommended)
+
+You can easily build this project with [Nix], by running the following command:
+
+```console
+% nix-build release.nix
+% # The resulting build will be at the result folder
+```
+
+### With [Cabal]
+
+Assuming you have a recent version of [Cabal], you can build the project with the following:
+
+```console
+% cabal build
+% # If you want to run the software, you can use cabal run
+% cabal run -- cock --help
+% # If you want to install, simply use cabal install
+% cabal install
+```
+
+## License
+
+cock is free and unencumbered public domain software. For more
+information, see http://unlicense.org/ or the accompanying LICENSE
+file.
+
+[Nix]: https://nixos.org/nix
+[Cabal]: https://www.haskell.org/cabal/
+[Unlicense]: https://unlicense.org/
