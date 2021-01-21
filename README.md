@@ -1,4 +1,4 @@
-# cock
+# 🐔 cock
 
 cock is a simplified markup language to author HTML pages.
 
