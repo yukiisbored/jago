@@ -1,0 +1,29 @@
+image: haskell:8
+
+stages:
+  - lint
+  - build
+
+lint:hlint:
+  stage: lint
+  before_script:
+    - cabal update
+    - cabal install hlint
+  script:
+    - hlint Lib Exec
+
+lint:brittany:
+  stage: lint
+  before_script:
+    - cabal update
+    - cabal install brittany
+  script:
+    - find Exec Lib -name "*.hs" -exec brittany --write-mode=inplace {} \;
+    - git diff --exit-code
+
+build:cabal:
+  stage: build
+  before_script:
+    - cabal update
+  script:
+    - cabal build
