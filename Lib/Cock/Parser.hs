@@ -1,23 +1,29 @@
 -- | Parser that parses cock
-module Cock.Parser (parser) where
+module Cock.Parser
+  ( parser
+  ) where
 
-import Cock.Html (Html (HtmlLiteral, HtmlTag), HtmlAttribute)
-import qualified Data.Text as T
-import Text.Parsec
-  ( alphaNum,
-    anyChar,
-    between,
-    char,
-    eof,
-    many,
-    many1,
-    manyTill,
-    option,
-    sepBy,
-    spaces,
-    (<|>),
-  )
-import Text.Parsec.Indent (IndentParser, indented, withPos)
+import           Cock.Html                      ( Html(HtmlLiteral, HtmlTag)
+                                                , HtmlAttribute
+                                                )
+import qualified Data.Text                     as T
+import           Text.Parsec                    ( (<|>)
+                                                , alphaNum
+                                                , anyChar
+                                                , between
+                                                , char
+                                                , eof
+                                                , many
+                                                , many1
+                                                , manyTill
+                                                , option
+                                                , sepBy
+                                                , spaces
+                                                )
+import           Text.Parsec.Indent             ( IndentParser
+                                                , indented
+                                                , withPos
+                                                )
 
 -- | Parser definition which uses Text as stream
 type Parser a = IndentParser T.Text () a
@@ -48,7 +54,7 @@ literal = do
 -- | Parse tags
 tag :: Parser Html
 tag = withPos $ do
-  name <- many1 identifierChar <* spaces
+  name  <- many1 identifierChar <* spaces
   attrs <- option [] attributes <* spaces
   child <- many $ indented *> html <* spaces
 

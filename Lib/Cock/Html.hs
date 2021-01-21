@@ -3,16 +3,15 @@
 -- HTML and functions that is able to construct an HTML document from
 -- the representation.
 module Cock.Html
-  ( HtmlAttribute,
-    Html (..),
-    translateAttribute,
-    translateAttributes,
-    translateHtml,
-    translateDocument,
-  )
-where
+  ( HtmlAttribute
+  , Html(..)
+  , translateAttribute
+  , translateAttributes
+  , translateHtml
+  , translateDocument
+  ) where
 
-import qualified Data.Text as T
+import qualified Data.Text                     as T
 
 -- | Representation of an HTML attribute
 type HtmlAttribute = (T.Text, T.Text)
@@ -33,14 +32,14 @@ translateAttributes = T.intercalate " " . map translateAttribute
 
 -- | Translate a Html representation to proper HTML
 translateHtml :: Html -> T.Text
-translateHtml (HtmlLiteral t) = t
+translateHtml (HtmlLiteral t              ) = t
 translateHtml (HtmlTag tagName attrs child) = mconcat [start, child', end]
-  where
-    start = case attrs of
-      [] -> mconcat ["<", tagName, ">"]
-      xs -> mconcat ["<", tagName, " ", translateAttributes xs, ">"]
-    end = mconcat ["</", tagName, ">"]
-    child' = mconcat $ map translateHtml child
+ where
+  start = case attrs of
+    [] -> mconcat ["<", tagName, ">"]
+    xs -> mconcat ["<", tagName, " ", translateAttributes xs, ">"]
+  end    = mconcat ["</", tagName, ">"]
+  child' = mconcat $ map translateHtml child
 
 -- | Translate a document to proper HTML
 translateDocument :: [Html] -> T.Text
