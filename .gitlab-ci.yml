@@ -1,29 +1,33 @@
-image: haskell:8
+image: nixos/nix:latest
 
 stages:
-  - lint
+  - basic
   - build
 
-lint:hlint:
-  stage: lint
+basic:hlint:
+  stage: basic
   before_script:
-    - cabal update
-    - cabal install hlint
+    - nix-env -iA nixpkgs.hlint
   script:
     - hlint Lib Exec
 
-lint:brittany:
-  stage: lint
+basic:brittany:
+  stage: basic
   before_script:
-    - cabal update
-    - cabal install brittany
+    - nix-env -iA nixpkgs.haskellPackages.brittany nixpkgs.git
   script:
-    - find Exec Lib -name "*.hs" -exec brittany --write-mode=inplace {} \;
+    - find Exec Lib -name '*.hs' -exec brittany --write-mode=inplace {} \;
     - git diff --exit-code
 
-build:cabal:
-  stage: build
+basic:cabal2nix:
+  stage: basic
   before_script:
-    - cabal update
+    - nix-env -iA nixpkgs.cabal2nix nixpkgs.git
   script:
-    - cabal build
+    - cabal2nix . > default.nix
+    - git diff --exit-code
+
+build:nix:
+  stage: build
+  script:
+    - nix-build release.nix
