@@ -32,13 +32,20 @@ type Parser a = IndentParser T.Text () a
 identifierChar :: Parser Char
 identifierChar = alphaNum <|> char '-'
 
+string :: Parser T.Text
+string = string' (char '"') <|> string' (char '`')
+  where string' :: Parser Char -> Parser T.Text
+        string' g = do
+          str <- g *> manyTill anyChar g
+          return $ T.pack str
+
 -- | Parse attribute
 attribute :: Parser HtmlAttribute
 attribute = do
   k <- manyTill identifierChar (char '=')
-  v <- char '"' *> manyTill anyChar (char '"')
+  v <- string
 
-  return (T.pack k, T.pack v)
+  return (T.pack k, v)
 
 -- | Parse attributes
 attributes :: Parser [HtmlAttribute]
@@ -46,10 +53,7 @@ attributes = between (char '[') (char ']') (sepBy attribute (char ' '))
 
 -- | Parse literals
 literal :: Parser Html
-literal = do
-  t <- char '"' *> manyTill anyChar (char '"')
-
-  return $ HtmlLiteral (T.pack t)
+literal = HtmlLiteral <$> string
 
 -- | Parse tags
 tag :: Parser Html

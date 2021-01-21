@@ -15,7 +15,7 @@ html [lang="en"]
     p
       "Hello, world! Welcome to my small space on the corner of the web."
       "I'm a high school student from Nishinomiya, Japan and interested in "
-      "supernatural phenomena and figures, such as "
+      `"supernatural phenomena" and "figures", such as `
       a [href="/aliens"] "aliens"
       ", "
       a [href="/time-travelers"] "time travelers"
