@@ -48,7 +48,7 @@ Html [lang="en"]
 ...
 ```
 
-## Build
+## Building cock
 
 ### With [Nix] (recommended)
 
