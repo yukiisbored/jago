@@ -7,6 +7,7 @@ import qualified Data.Text.IO as TIO
 import Options.Applicative
   ( Parser,
     execParser,
+    footer,
     fullDesc,
     header,
     help,
@@ -65,5 +66,6 @@ main = compile =<< execParser opts
         (config <**> helper)
         ( fullDesc
             <> progDesc "Compile cock to html"
-            <> header "cock - A simplified markup language that compiles to HTML"
+            <> header "cock - simplified markup language to author HTML pages"
+            <> footer "https://git.yukiisbo.red/yuki/cock"
         )
