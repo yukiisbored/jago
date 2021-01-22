@@ -4,9 +4,11 @@ html [lang="en"]
     title "Haruhi suzumiya personal website"
 
     meta [charset="utf-8"]
-    meta [name="viewport" content="width=device-width, initial-scale=1"]
 
-    meta [name="description" content="Haruhi's personal space on the wild wild web"]
+    meta [name="viewport"
+          content="width=device-width, initial-scale=1"]
+    meta [name="description"
+          content="Haruhi's personal space on the wild wild web"]
 
     link [rel="stylesheet" href="styles.css"]
   body

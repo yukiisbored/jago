@@ -50,7 +50,7 @@ attribute = do
 
 -- | Parse attributes
 attributes :: Parser [HtmlAttribute]
-attributes = between (char '[') (char ']') (sepBy attribute (char ' '))
+attributes = between (char '[') (char ']') (sepBy attribute spaces)
 
 -- | Parse literals
 literal :: Parser Html
