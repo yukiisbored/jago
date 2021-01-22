@@ -43,4 +43,5 @@ translateHtml (HtmlTag tagName attrs child) = mconcat [start, child', end]
 
 -- | Translate a document to proper HTML
 translateDocument :: [Html] -> T.Text
-translateDocument = T.unlines . map translateHtml
+translateDocument doc = mconcat [doc', "\n"]
+  where doc' = mconcat $ map translateHtml doc
