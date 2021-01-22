@@ -6,6 +6,7 @@ module Cock.Parser
 import           Cock.Html                      ( Html(HtmlLiteral, HtmlTag)
                                                 , HtmlAttribute
                                                 )
+import           Control.Monad                  ( void )
 import qualified Data.Text                     as T
 import           Text.Parsec                    ( (<?>)
                                                 , (<|>)
@@ -29,15 +30,26 @@ import           Text.Parsec.Indent             ( IndentParser
 -- | Parser definition which uses Text as stream
 type Parser a = IndentParser T.Text () a
 
--- | Definition for "identifier characters"
-identifierChar :: Parser Char
-identifierChar = alphaNum <|> char '-' <?> "identifier character"
+-- | Lexeme definition
+lexeme :: Parser a -> Parser a
+lexeme p = p <* spaces
+
+-- | Helper to identify symbols
+symbol :: Char -> Parser ()
+symbol = void . lexeme . char
+
+-- | Parse identifier
+identifier :: Parser T.Text
+identifier = do
+  id <- many1 ch
+  return $ T.pack id
+  where ch = alphaNum <|> char '-'
 
 -- | Parse string with backticks or double-quotes
 string :: Parser T.Text
-string = string' (char '"') <|> string' (char '`') <?> "string"
+string = string' (symbol '"') <|> string' (symbol '`') <?> "string"
  where
-  string' :: Parser Char -> Parser T.Text
+  string' :: Parser () -> Parser T.Text
   string' g = do
     str <- g *> manyTill anyChar g
     return $ T.pack str
@@ -45,15 +57,15 @@ string = string' (char '"') <|> string' (char '`') <?> "string"
 -- | Parse attribute
 attribute :: Parser HtmlAttribute
 attribute = do
-  k <- manyTill identifierChar (char '=') <?> "attribute name"
+  k <- identifier <* symbol '=' <?> "attribute name"
   v <- string <?> "attribute value"
 
-  return (T.pack k, v) <?> "attribute"
+  return (k, v) <?> "attribute"
 
 -- | Parse attributes
 attributes :: Parser [HtmlAttribute]
 attributes =
-  between (char '[') (char ']') (sepBy attribute spaces) <?> "attributes"
+  between (symbol '[') (symbol ']') (sepBy attribute spaces) <?> "attributes"
 
 -- | Parse literals
 literal :: Parser Html
@@ -62,15 +74,15 @@ literal = HtmlLiteral <$> string <?> "literal text"
 -- | Parse tags
 tag :: Parser Html
 tag = withPos $ do
-  name  <- (many1 identifierChar <?> "tag name") <* spaces
-  attrs <- option [] attributes <* spaces
-  child <- many $ indented *> html <* spaces
+  name  <- lexeme identifier <?> "tag name"
+  attrs <- lexeme $ option [] attributes
+  child <- lexeme $ many $ indented *> html
 
-  return (HtmlTag (T.pack name) attrs child) <?> "tag"
+  return (HtmlTag name attrs child) <?> "tag"
 
 -- | Parse html
 html :: Parser Html
-html = tag <|> literal <* spaces
+html = lexeme $ tag <|> literal
 
 -- | Parse cock documents
 parser :: Parser [Html]
