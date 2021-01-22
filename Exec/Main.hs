@@ -16,11 +16,11 @@ import           Options.Applicative            ( Parser
                                                 , info
                                                 , long
                                                 , metavar
+                                                , optional
                                                 , progDesc
                                                 , short
                                                 , strOption
                                                 )
-import           Options.Applicative            ( optional )
 import           Text.Parsec                    ( ParseError )
 import           Text.Parsec.Indent             ( runIndentParser )
 
