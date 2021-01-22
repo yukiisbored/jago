@@ -14,13 +14,15 @@ import           Text.Parsec                    ( (<?>)
                                                 , anyChar
                                                 , between
                                                 , char
+                                                , choice
                                                 , eof
                                                 , many
                                                 , many1
                                                 , manyTill
+                                                , oneOf
                                                 , option
                                                 , sepBy
-                                                , spaces
+                                                , try
                                                 )
 import           Text.Parsec.Indent             ( IndentParser
                                                 , indented
@@ -30,9 +32,17 @@ import           Text.Parsec.Indent             ( IndentParser
 -- | Parser definition which uses Text as stream
 type Parser a = IndentParser T.Text () a
 
+-- | Whitespace and comment definition
+sc :: Parser ()
+sc = choice [whitespace *> sc, comment *> sc, return ()]
+ where
+  comment =
+    try (char '#') *> manyTill anyChar (void (char '\n') <|> eof) <?> "comment"
+  whitespace = void (many1 (oneOf " \t\n") <?> "whitespace")
+
 -- | Lexeme definition
 lexeme :: Parser a -> Parser a
-lexeme p = p <* spaces
+lexeme p = p <* sc
 
 -- | Helper to identify symbols
 symbol :: Char -> Parser ()
@@ -47,11 +57,11 @@ identifier = do
 
 -- | Parse string with backticks or double-quotes
 string :: Parser T.Text
-string = string' (symbol '"') <|> string' (symbol '`') <?> "string"
+string = string' (char '"') <|> string' (char '`') <?> "string"
  where
-  string' :: Parser () -> Parser T.Text
+  string' :: Parser Char -> Parser T.Text
   string' g = do
-    str <- g *> manyTill anyChar g
+    str <- g *> manyTill anyChar (lexeme g)
     return $ T.pack str
 
 -- | Parse attribute
@@ -65,11 +75,11 @@ attribute = do
 -- | Parse attributes
 attributes :: Parser [HtmlAttribute]
 attributes =
-  between (symbol '[') (symbol ']') (sepBy attribute spaces) <?> "attributes"
+  between (symbol '[') (symbol ']') (sepBy attribute sc) <?> "attributes"
 
 -- | Parse literals
 literal :: Parser Html
-literal = HtmlLiteral <$> string <?> "literal text"
+literal = lexeme (HtmlLiteral <$> string) <?> "literal text"
 
 -- | Parse tags
 tag :: Parser Html
@@ -86,4 +96,4 @@ html = lexeme $ tag <|> literal
 
 -- | Parse cock documents
 parser :: Parser [Html]
-parser = spaces *> many html <* eof
+parser = sc *> many html <* eof
