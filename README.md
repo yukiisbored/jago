@@ -16,9 +16,11 @@ html [lang="en"]
     title "Haruhi suzumiya personal website"
 
     meta [charset="utf-8"]
-    meta [name="viewport" content="width=device-width, initial-scale=1"]
 
-    meta [name="description" content="Haruhi's personal space on the wild wild web"]
+    meta [name="viewport"
+          content="width=device-width, initial-scale=1"]
+    meta [name="description"
+          content="Haruhi's personal space on the wild wild web"]
 
     link [rel="stylesheet" href="styles.css"]
   body
@@ -27,7 +29,7 @@ html [lang="en"]
     p
       "Hello, world! Welcome to my small space on the corner of the web."
       "I'm a high school student from Nishinomiya, Japan and interested in "
-      "supernatural phenomena and figures, such as "
+      `"supernatural phenomena" and "figures", such as `
       a [href="/aliens"] "aliens"
       ", "
       a [href="/time-travelers"] "time travelers"
