@@ -7,7 +7,8 @@ import           Cock.Html                      ( Html(HtmlLiteral, HtmlTag)
                                                 , HtmlAttribute
                                                 )
 import qualified Data.Text                     as T
-import           Text.Parsec                    ( (<|>)
+import           Text.Parsec                    ( (<?>)
+                                                , (<|>)
                                                 , alphaNum
                                                 , anyChar
                                                 , between
@@ -30,11 +31,11 @@ type Parser a = IndentParser T.Text () a
 
 -- | Definition for "identifier characters"
 identifierChar :: Parser Char
-identifierChar = alphaNum <|> char '-'
+identifierChar = alphaNum <|> char '-' <?> "identifier character"
 
 -- | Parse string with backticks or double-quotes
 string :: Parser T.Text
-string = string' (char '"') <|> string' (char '`')
+string = string' (char '"') <|> string' (char '`') <?> "string"
  where
   string' :: Parser Char -> Parser T.Text
   string' g = do
@@ -44,27 +45,28 @@ string = string' (char '"') <|> string' (char '`')
 -- | Parse attribute
 attribute :: Parser HtmlAttribute
 attribute = do
-  k <- manyTill identifierChar (char '=')
-  v <- string
+  k <- manyTill identifierChar (char '=') <?> "attribute name"
+  v <- string <?> "attribute value"
 
-  return (T.pack k, v)
+  return (T.pack k, v) <?> "attribute"
 
 -- | Parse attributes
 attributes :: Parser [HtmlAttribute]
-attributes = between (char '[') (char ']') (sepBy attribute spaces)
+attributes =
+  between (char '[') (char ']') (sepBy attribute spaces) <?> "attributes"
 
 -- | Parse literals
 literal :: Parser Html
-literal = HtmlLiteral <$> string
+literal = HtmlLiteral <$> string <?> "literal text"
 
 -- | Parse tags
 tag :: Parser Html
 tag = withPos $ do
-  name  <- many1 identifierChar <* spaces
+  name  <- (many1 identifierChar <?> "tag name") <* spaces
   attrs <- option [] attributes <* spaces
   child <- many $ indented *> html <* spaces
 
-  return $ HtmlTag (T.pack name) attrs child
+  return (HtmlTag (T.pack name) attrs child) <?> "tag"
 
 -- | Parse html
 html :: Parser Html
