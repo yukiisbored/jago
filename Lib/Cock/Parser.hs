@@ -71,4 +71,4 @@ html = tag <|> literal <* spaces
 
 -- | Parse cock documents
 parser :: Parser [Html]
-parser = many html <* eof
+parser = spaces *> many html <* eof
