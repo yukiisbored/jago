@@ -34,10 +34,11 @@ identifierChar = alphaNum <|> char '-'
 
 string :: Parser T.Text
 string = string' (char '"') <|> string' (char '`')
-  where string' :: Parser Char -> Parser T.Text
-        string' g = do
-          str <- g *> manyTill anyChar g
-          return $ T.pack str
+ where
+  string' :: Parser Char -> Parser T.Text
+  string' g = do
+    str <- g *> manyTill anyChar g
+    return $ T.pack str
 
 -- | Parse attribute
 attribute :: Parser HtmlAttribute
