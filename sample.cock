@@ -1,29 +1,107 @@
-"<!DOCTYPE html>"
-html [lang="en"]
-  head
-    title "Haruhi suzumiya personal website"
+#
+# This is an example of the cock markup language
+#
+# https://git.yukiisbo.red/yuki/cock
+#
+"<!DOCTYPE html>" # This is a literal, it will be copied as-is.
 
+html [lang="en"]  # This is a tag, it can contain attributes and
+                  # can have literals/tags as children.
+
+  head            # This is a children of the `html` tag above
+
+    title "Haruhi suzumiya's personal website"
+
+    # Tags could also have no children
     meta [charset="utf-8"]
-
     meta [name="viewport"
           content="width=device-width, initial-scale=1"]
     meta [name="description"
           content="Haruhi's personal space on the wild wild web"]
 
-    link [rel="stylesheet" href="styles.css"]
+    # You can also break literals into multiple lines like this!
+    # Spaces and line breaks are passed as-is.
+    style `
+          body {
+              font-family:       sans-serif;
+              margin:            40px auto;
+              max-width:         900px;
+              line-height:       1.6em;
+              font-size:         18px;
+          }
+
+          header {
+              text-align:        center;
+          }
+
+          h1 {
+              font-size:         4em;
+          }
+
+          h2 {
+              font-size:         2.5em;
+          }
+
+          h3 {
+              border-bottom:     0.1em solid #ddd;
+          }
+
+          a {
+              text-decoration:   none;
+          }
+
+          p {
+              text-align:        justify;
+          }
+
+          .border {
+              border:            0.1em dashed #ccc;
+              padding:           0px 16px;
+              margin:            16px 0px;
+          }
+          `
+
   body
-    h1 "Haruhi Suzumiya"
-    hr
-    p
-      "Hello, world! Welcome to my small space on the corner of the web."
-      "I'm a high school student from Nishinomiya, Japan and interested in "
-      `"supernatural phenomena" and "figures", such as `
-      a [href="/aliens"] "aliens"
-      ", "
-      a [href="/time-travelers"] "time travelers"
-      ", and "
-      a [href="/time-travelers"] "espers"
-      ". If you know any, please let me know by shooting me an email at "
-      a [href="mailto:haruhi.suzumiya@example.jp"] "haruhi.suzumiya@example.jp"
-    hr
-    h6 "All content on this website is released to the public domain."
+    # Header
+    header
+      img
+          [
+            src="//upload.wikimedia.org/wikipedia/en/4/48/Suzumiya_Haruhi.jpg"
+            alt="Picture of myself"
+          ]
+
+      h1 "Haruhi Suzumiya"
+
+      # You can compose multiple tags in a single line like this
+      h2 i "President of the SOS Brigade club"
+
+    # Biography
+    div [class="border"]
+      h3 "Biography"
+      p "Hello, world! Welcome to my small space on the corner of the web. "
+        "I'm a high school student from Nishinomiya, Japan and interested in "
+        `"supernatural phenomena" and "figures", such as `
+        a [href="//en.wikipedia.org/wiki/Extraterrestrial_life"] "aliens"
+        ", "
+        a [href="//en.wikipedia.org/wiki/Time_travel"] "time travelers"
+        ", and "
+        a [href="//en.wikipedia.org/wiki/Esper"] "espers"
+        ". If you know any, please let me know by shooting me an email at "
+        a [href="mailto:haruhi.suzumiya@example.jp"] "haruhi.suzumiya@example.jp"
+        "."
+
+    # List of members
+    div [class="border"]
+      h3 "Members"
+      ul li "Haruhi Suzumiya"
+         li "Mikuru Asahina"
+         li "Yuki Nagato"
+         li "Itsuki Koizumi"
+         li "Kyon"
+
+    # Footer
+    footer
+      p
+         "This webpage is authored using the "
+         a [href="https://git.yukiisbo.red/yuki/cock"] "cock"
+         " markup language."
