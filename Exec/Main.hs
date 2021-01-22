@@ -5,6 +5,8 @@ import           Cock.Html                      ( Html
                                                 )
 import           Cock.Parser                    ( parser )
 import           Control.Applicative            ( (<**>) )
+import           Data.Maybe                     ( fromMaybe )
+import qualified Data.Text                     as T
 import qualified Data.Text.IO                  as TIO
 import           Options.Applicative            ( Parser
                                                 , execParser
@@ -20,43 +22,52 @@ import           Options.Applicative            ( Parser
                                                 , short
                                                 , strOption
                                                 )
+import           Options.Applicative            ( optional )
+import           Text.Parsec                    ( ParseError )
 import           Text.Parsec.Indent             ( runIndentParser )
 
 data Config = Config
-  { inputFile  :: FilePath
-  , outputFile :: FilePath
+  { inputFile  :: Maybe FilePath
+  , outputFile :: Maybe FilePath
   }
 
 config :: Parser Config
 config =
   Config
-    <$> strOption
-          (long "input" <> short 'i' <> metavar "INPUT" <> help
-            "Cock file as to compile"
+    <$> optional
+          (strOption
+            (long "input" <> short 'i' <> metavar "INPUT" <> help
+              "Cock file acting as input"
+            )
           )
-    <*> strOption
-          (long "output" <> short 'o' <> metavar "OUTPUT" <> help
-            "Resulting html output"
+    <*> optional
+          (strOption
+            (long "output" <> short 'o' <> metavar "OUTPUT" <> help
+              "Output html file"
+            )
           )
 
-readCock :: FilePath -> IO [Html]
-readCock path = do
-  file <- TIO.readFile path
+compile :: FilePath -> T.Text -> Either ParseError T.Text
+compile path cock = translateDocument <$> documentMaybe
+  where documentMaybe = runIndentParser parser () path cock
 
-  let documentMaybe = runIndentParser parser () path file
+compileIO :: FilePath -> T.Text -> IO T.Text
+compileIO path cock = case compile path cock of
+  Left  err      -> fail $ show err
+  Right document -> return document
 
-  case documentMaybe of
-    Left  err      -> fail (show err)
-    Right document -> return document
+cli :: Config -> IO ()
+cli (Config inMaybe outMaybe) = do
+  cock <- maybe TIO.getContents TIO.readFile inMaybe
+  let inPath = fromMaybe "stdin" inMaybe
+  compiled <- compileIO inPath cock
 
-compile :: Config -> IO ()
-compile (Config inputPath outputPath) = do
-  document <- readCock inputPath
-  let document' = translateDocument document
-  TIO.writeFile outputPath document'
+  case outMaybe of
+    Just outPath -> TIO.writeFile outPath compiled
+    Nothing      -> TIO.putStr compiled
 
 main :: IO ()
-main = compile =<< execParser opts
+main = cli =<< execParser opts
  where
   opts = info
     (config <**> helper)
