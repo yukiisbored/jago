@@ -32,6 +32,7 @@ type Parser a = IndentParser T.Text () a
 identifierChar :: Parser Char
 identifierChar = alphaNum <|> char '-'
 
+-- | Parse string with backticks or double-quotes
 string :: Parser T.Text
 string = string' (char '"') <|> string' (char '`')
  where
