@@ -1,8 +1,6 @@
 module Main where
 
-import           Cock.Html                      ( Html
-                                                , translateDocument
-                                                )
+import           Cock.Html                      ( translateDocument )
 import           Cock.Parser                    ( parser )
 import           Control.Applicative            ( (<**>) )
 import           Data.Maybe                     ( fromMaybe )
