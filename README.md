@@ -110,7 +110,6 @@ If you want to run jago, you can use `nix run`.
 
 ```console
 $ nix run . -- --help
-warning: Git tree '/home/yuki/src/git.sr.ht/~yuki_is_bored/jago' is dirty
 jago - simplified markup language to author HTML pages
 
 Usage: jago [-i|--input INPUT] [-o|--output OUTPUT]
