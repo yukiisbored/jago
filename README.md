@@ -163,9 +163,7 @@ Building     jago-0.1.0.0 (lib)
 
 ## License
 
-jago is free and unencumbered public domain software. For more
-information, see http://unlicense.org/ or the accompanying LICENSE
-file.
+jago is free and open-source software licensed under the ISC license.
 
 ## See also
 
@@ -174,5 +172,4 @@ file.
 
 [Nix]: https://nixos.org/nix
 [Cabal]: https://www.haskell.org/cabal/
-[Unlicense]: https://unlicense.org/
 [pug]: https://pugjs.org/api/getting-started.html
