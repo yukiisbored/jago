@@ -4,7 +4,7 @@ name:                jago
 version:             0.1.0.0
 synopsis:            Simplified markup language to author HTML pages
 description:         This project contains both the library and executable to parse jago file and translate them into proper HTML
-license:             PublicDomain
+license:             ISC
 license-file:        LICENSE
 author:              Muhammad Kaisar Arkhan
 maintainer:          hi@yukiisbo.red
