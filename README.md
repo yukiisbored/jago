@@ -1,17 +1,17 @@
-# 🐔 cock
+# 🐔 jago
 
-cock is a simplified markup language to author HTML pages.
+jago is a simplified markup language to author HTML pages.
 
 This project includes both the executable which provides a
-command-line interface that produces HTML files from cock markup files
+command-line interface that produces HTML files from jago markup files
 and the library that work on parsing, translating and produce the
 resulting HTML file.
 
-## Taste of cock
+## Taste of jago
 
-Confused? Here's an annotated version of this example: [`sample.cock`](./sample.cock)
+Confused? Here's an annotated version of this example: [`sample.jago`](./sample.jago)
 
-```cock
+```jago
 "<!DOCTYPE html>"
 html [lang="en"]
   head
@@ -54,20 +54,20 @@ html [lang="en"]
 
     footer
       p "This webpage is authored using the "
-        a [href="https://git.yukiisbo.red/yuki/cock"] "cock"
+        a [href="https://git.yukiisbo.red/yuki/jago"] "jago"
         " markup language."
 ```
 
-## Using cock
+## Using jago
 
 ```console
-$ cock --input sample.cock --output sample.html
+$ jago --input sample.jago --output sample.html
 $ cat sample.html
 <!DOCTYPE html><html lang="en"><head><title>Haruhi suzumiya's personal website</title><meta charset="
 ...
 ```
 
-## Building cock
+## Building jago
 
 ### With [Nix] (recommended)
 
@@ -76,40 +76,40 @@ You can easily build this project with [Nix] by using `nix-build`:
 ```console
 $ nix-build release.nix
 these derivations will be built:
-  /nix/store/87mz16f69x31711phnx88i2din1l1jha-cock-0.1.0.0.drv
-building '/nix/store/87mz16f69x31711phnx88i2din1l1jha-cock-0.1.0.0.drv'...
+  /nix/store/87mz16f69x31711phnx88i2din1l1jha-jago-0.1.0.0.drv
+building '/nix/store/87mz16f69x31711phnx88i2din1l1jha-jago-0.1.0.0.drv'...
 setupCompilerEnvironmentPhase
 Build with /nix/store/4igazfl1z3vrc7cq2zs0yxwrnhsl1igf-ghc-8.10.3.
 ...
 ```
 
-If you want to run cock, simply navigate to the result symlink:
+If you want to run jago, simply navigate to the result symlink:
 
 ```console
 $ ls result/bin
-cock
-$ ./result/bin/cock --help
-cock - simplified markup language to author HTML pages
+jago
+$ ./result/bin/jago --help
+jago - simplified markup language to author HTML pages
 
-Usage: cock [-i|--input INPUT] [-o|--output OUTPUT]
-  Compile cock to html
+Usage: jago [-i|--input INPUT] [-o|--output OUTPUT]
+  Compile jago to html
 
 Available options:
-  -i,--input INPUT         Cock file acting as input
+  -i,--input INPUT         Jago file acting as input
   -o,--output OUTPUT       Output html file
   -h,--help                Show this help text
 
-https://git.yukiisbo.red/yuki/cock
+https://git.yukiisbo.red/yuki/jago
 ```
 
-If you want to install cock to your current Nix profile, you can use `nix-env`:
+If you want to install jago to your current Nix profile, you can use `nix-env`:
 
 ```console
-$ nix-env --file release.cock --install
-installing 'cock-0.1.0.0'
+$ nix-env --file release.jago --install
+installing 'jago-0.1.0.0'
 these derivations will be built:
-  /nix/store/10nmg713p08j1jqv4il0iypzmy451zxm-cock-0.1.0.0.drv
-building '/nix/store/10nmg713p08j1jqv4il0iypzmy451zxm-cock-0.1.0.0.drv'...
+  /nix/store/10nmg713p08j1jqv4il0iypzmy451zxm-jago-0.1.0.0.drv
+building '/nix/store/10nmg713p08j1jqv4il0iypzmy451zxm-jago-0.1.0.0.drv'...
 ...
 ```
 
@@ -122,55 +122,55 @@ $ cabal build
 Resolving dependencies...
 Build profile: -w ghc-8.8.4 -O1
 In order, the following will be built (use -v for more details):
- - cock-0.1.0.0 (lib) (first run)
- - cock-0.1.0.0 (exe:cock) (first run)
+ - jago-0.1.0.0 (lib) (first run)
+ - jago-0.1.0.0 (exe:jago) (first run)
 ...
 ```
 
-If you want to run cock, you can use `cabal run`:
+If you want to run jago, you can use `cabal run`:
 
 ```console
-$ cabal run -- cock --help
+$ cabal run -- jago --help
 Up to date
-cock - simplified markup language to author HTML pages
+jago - simplified markup language to author HTML pages
 
-Usage: cock [-i|--input INPUT] [-o|--output OUTPUT]
-  Compile cock to html
+Usage: jago [-i|--input INPUT] [-o|--output OUTPUT]
+  Compile jago to html
 
 Available options:
-  -i,--input INPUT         Cock file acting as input
+  -i,--input INPUT         Jago file acting as input
   -o,--output OUTPUT       Output html file
   -h,--help                Show this help text
 
-https://git.yukiisbo.red/yuki/cock
+https://git.yukiisbo.red/yuki/jago
 ```
 
-If you want to install cock, simply use `cabal install`
+If you want to install jago, simply use `cabal install`
 
 ```console
 $ cabal install
 Wrote tarball sdist to
-/home/hs/work/cock/dist-newstyle/sdist/cock-0.1.0.0.tar.gz
+/home/hs/work/jago/dist-newstyle/sdist/jago-0.1.0.0.tar.gz
 Resolving dependencies...
 Build profile: -w ghc-8.8.4 -O1
 In order, the following will be built (use -v for more details):
- - cock-0.1.0.0 (lib) (requires build)
- - cock-0.1.0.0 (exe:cock) (requires build)
-Starting     cock-0.1.0.0 (lib)
-Building     cock-0.1.0.0 (lib)
+ - jago-0.1.0.0 (lib) (requires build)
+ - jago-0.1.0.0 (exe:jago) (requires build)
+Starting     jago-0.1.0.0 (lib)
+Building     jago-0.1.0.0 (lib)
 ...
 ```
 
 ## License
 
-cock is free and unencumbered public domain software. For more
+jago is free and unencumbered public domain software. For more
 information, see http://unlicense.org/ or the accompanying LICENSE
 file.
 
 ## See also
 
 * [pug] (Javascript): Simplified markup language used for HTML
-  templating which inspires cock.
+  templating which inspires jago.
 
 [Nix]: https://nixos.org/nix
 [Cabal]: https://www.haskell.org/cabal/

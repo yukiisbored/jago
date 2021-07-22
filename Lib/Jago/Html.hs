@@ -2,7 +2,7 @@
 -- This module contains the intermediate generalized representation for
 -- HTML and functions that is able to construct an HTML document from
 -- the representation.
-module Cock.Html
+module Jago.Html
   ( HtmlAttribute
   , Html(..)
   , translateAttribute

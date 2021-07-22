@@ -1,7 +1,7 @@
 module Main where
 
-import           Cock.Html                      ( translateDocument )
-import           Cock.Parser                    ( parser )
+import           Jago.Html                      ( translateDocument )
+import           Jago.Parser                    ( parser )
 import           Control.Applicative            ( (<**>) )
 import           Data.Maybe                     ( fromMaybe )
 import qualified Data.Text                     as T
@@ -35,7 +35,7 @@ config =
     <$> optional
           (strOption
             (long "input" <> short 'i' <> metavar "INPUT" <> help
-              "Cock file acting as input"
+              "Jago file acting as input"
             )
           )
     <*> optional
@@ -46,19 +46,19 @@ config =
           )
 
 compile :: FilePath -> T.Text -> Either ParseError T.Text
-compile path cock = translateDocument <$> documentMaybe
-  where documentMaybe = runIndentParser parser () path cock
+compile path jago = translateDocument <$> documentMaybe
+  where documentMaybe = runIndentParser parser () path jago
 
 compileIO :: FilePath -> T.Text -> IO T.Text
-compileIO path cock = case compile path cock of
+compileIO path jago = case compile path jago of
   Left  err      -> fail $ show err
   Right document -> return document
 
 cli :: Config -> IO ()
 cli (Config inMaybe outMaybe) = do
-  cock <- maybe TIO.getContents TIO.readFile inMaybe
+  jago <- maybe TIO.getContents TIO.readFile inMaybe
   let inPath = fromMaybe "stdin" inMaybe
-  compiled <- compileIO inPath cock
+  compiled <- compileIO inPath jago
 
   case outMaybe of
     Just outPath -> TIO.writeFile outPath compiled
@@ -70,7 +70,7 @@ main = cli =<< execParser opts
   opts = info
     (config <**> helper)
     (  fullDesc
-    <> progDesc "Compile cock to html"
-    <> header "cock - simplified markup language to author HTML pages"
-    <> footer "https://git.yukiisbo.red/yuki/cock"
+    <> progDesc "Compile jago to html"
+    <> header "jago - simplified markup language to author HTML pages"
+    <> footer "https://git.yukiisbo.red/yuki/jago"
     )

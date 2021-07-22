@@ -1,4 +1,4 @@
-# Revision history for cock
+# Revision history for jago
 
 ## 0.1.0.0 -- YYYY-mm-dd
 

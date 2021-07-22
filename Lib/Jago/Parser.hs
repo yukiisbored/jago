@@ -1,9 +1,9 @@
--- | Parser that parses cock
-module Cock.Parser
+-- | Parser that parses jago
+module Jago.Parser
   ( parser
   ) where
 
-import           Cock.Html                      ( Html(HtmlLiteral, HtmlTag)
+import           Jago.Html                      ( Html(HtmlLiteral, HtmlTag)
                                                 , HtmlAttribute
                                                 )
 import           Control.Monad                  ( void )
@@ -94,6 +94,6 @@ tag = withPos $ do
 html :: Parser Html
 html = lexeme $ tag <|> literal
 
--- | Parse cock documents
+-- | Parse jago documents
 parser :: Parser [Html]
 parser = sc *> many html <* eof

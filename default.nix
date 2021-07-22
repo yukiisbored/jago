@@ -2,7 +2,7 @@
 , text
 }:
 mkDerivation {
-  pname = "cock";
+  pname = "jago";
   version = "0.1.0.0";
   src = ./.;
   isLibrary = true;
