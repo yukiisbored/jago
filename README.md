@@ -71,7 +71,7 @@ $ cat sample.html
 
 ### With [Stack]
 
-You can easily build this project using [Stack] by using `stack build`.
+You can easily build this project using [Stack] with `stack build`.
 
 ```console
 $ stack build
@@ -98,6 +98,60 @@ Available options:
 https://git.sr.ht/~yuki_is_bored/jago
 ```
 
+### With [Nix Flake]
+
+You can easily build this project using [Nix Flake] with `nix build`.
+
+```console
+$ nix build
+```
+
+If you want to run jago, you can use `nix run`.
+
+```console
+$ nix run . -- --help
+warning: Git tree '/home/yuki/src/git.sr.ht/~yuki_is_bored/jago' is dirty
+jago - simplified markup language to author HTML pages
+
+Usage: jago [-i|--input INPUT] [-o|--output OUTPUT]
+  Compile jago to html
+
+Available options:
+  -i,--input INPUT         Jago file acting as input
+  -o,--output OUTPUT       Output html file
+  -h,--help                Show this help text
+
+https://git.sr.ht/~yuki_is_bored/jago
+```
+
+### With [Nix]
+
+You can easily build this project using [Nix] with `nix-build`.
+
+```console
+$ nix-build
+building '/nix/store/cjf2i0m8fah0qpgnww82gxkjfajgwgmx-cabal2nix-jago.drv'...
+installing
+this derivation will be built:
+```
+
+If you want to run jago, execute the resulting binaries inside the `result` symlink.
+
+```console
+$ ./result/bin/jago --help
+jago - simplified markup language to author HTML pages
+
+Usage: jago [-i|--input INPUT] [-o|--output OUTPUT]
+  Compile jago to html
+
+Available options:
+  -i,--input INPUT         Jago file acting as input
+  -o,--output OUTPUT       Output html file
+  -h,--help                Show this help text
+
+https://git.sr.ht/~yuki_is_bored/jago
+```
+
 ## License
 
 jago is free and open-source software licensed under the ISC license.
@@ -110,3 +164,4 @@ jago is free and open-source software licensed under the ISC license.
 [Stack]: https://haskellstack.org/
 [Nix]: https://nixos.org/nix
 [pug]: https://pugjs.org/api/getting-started.html
+[Nix Flake]: https://www.tweag.io/blog/2020-05-25-flakes/
