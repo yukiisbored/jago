@@ -69,7 +69,7 @@ $ cat sample.html
 
 ## Building jago
 
-### With stack
+### With [Stack]
 
 You can easily build this project using [Stack] by using `stack build`.
 
