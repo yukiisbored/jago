@@ -54,7 +54,7 @@ html [lang="en"]
 
     footer
       p "This webpage is authored using the "
-        a [href="https://git.yukiisbo.red/yuki/jago"] "jago"
+        a [href="https://git.sr.ht/~yuki_is_bored/jago"] "jago"
         " markup language."
 ```
 
@@ -99,7 +99,7 @@ Available options:
   -o,--output OUTPUT       Output html file
   -h,--help                Show this help text
 
-https://git.yukiisbo.red/yuki/jago
+https://git.sr.ht/~yuki_is_bored/jago
 ```
 
 If you want to install jago to your current Nix profile, you can use `nix-env`:
@@ -142,7 +142,7 @@ Available options:
   -o,--output OUTPUT       Output html file
   -h,--help                Show this help text
 
-https://git.yukiisbo.red/yuki/jago
+https://git.sr.ht/~yuki_is_bored/jago
 ```
 
 If you want to install jago, simply use `cabal install`

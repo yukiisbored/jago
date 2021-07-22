@@ -1,7 +1,7 @@
 #
 # This is an example of the jago markup language
 #
-# https://git.yukiisbo.red/yuki/jago
+# https://git.sr.ht/~yuki_is_bored/jago
 #
 "<!DOCTYPE html>" # This is a literal, it will be copied as-is.
 
@@ -103,5 +103,5 @@ html [lang="en"]  # This is a tag, it can contain attributes and
     footer
       p
          "This webpage is authored using the "
-         a [href="https://git.yukiisbo.red/yuki/jago"] "jago"
+         a [href="https://git.sr.ht/~yuki_is_bored/jago"] "jago"
          " markup language."

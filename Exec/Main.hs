@@ -72,5 +72,5 @@ main = cli =<< execParser opts
     (  fullDesc
     <> progDesc "Compile jago to html"
     <> header "jago - simplified markup language to author HTML pages"
-    <> footer "https://git.yukiisbo.red/yuki/jago"
+    <> footer "https://git.sr.ht/~yuki_is_bored/jago"
     )
