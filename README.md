@@ -69,26 +69,22 @@ $ cat sample.html
 
 ## Building jago
 
-### With [Nix] (recommended)
+### With stack
 
-You can easily build this project with [Nix] by using `nix-build`:
+You can easily build this project using [Stack] by using `stack build`.
 
 ```console
-$ nix-build release.nix
-these derivations will be built:
-  /nix/store/87mz16f69x31711phnx88i2din1l1jha-jago-0.1.0.0.drv
-building '/nix/store/87mz16f69x31711phnx88i2din1l1jha-jago-0.1.0.0.drv'...
-setupCompilerEnvironmentPhase
-Build with /nix/store/4igazfl1z3vrc7cq2zs0yxwrnhsl1igf-ghc-8.10.3.
+$ stack build
+jago-0.1.0.0: unregistering (local file changes: CHANGELOG.md Exec/Main.hs Lib/Jago/Html.hs Lib/Jago/Parser.hs jago.cabal)
+Building all executables for `jago' once. After a successful build of all of them, only specified executables will be rebuilt.
+jago> configure (lib + exe)
 ...
 ```
 
-If you want to run jago, simply navigate to the result symlink:
+If you want to run jago, you can use `stack run`.
 
 ```console
-$ ls result/bin
-jago
-$ ./result/bin/jago --help
+$ stack run -- jago --help
 jago - simplified markup language to author HTML pages
 
 Usage: jago [-i|--input INPUT] [-o|--output OUTPUT]
@@ -100,65 +96,6 @@ Available options:
   -h,--help                Show this help text
 
 https://git.sr.ht/~yuki_is_bored/jago
-```
-
-If you want to install jago to your current Nix profile, you can use `nix-env`:
-
-```console
-$ nix-env --file release.jago --install
-installing 'jago-0.1.0.0'
-these derivations will be built:
-  /nix/store/10nmg713p08j1jqv4il0iypzmy451zxm-jago-0.1.0.0.drv
-building '/nix/store/10nmg713p08j1jqv4il0iypzmy451zxm-jago-0.1.0.0.drv'...
-...
-```
-
-### With [Cabal]
-
-Assuming you have a recent version of [Cabal], you can build the project with `cabal build`:
-
-```console
-$ cabal build
-Resolving dependencies...
-Build profile: -w ghc-8.8.4 -O1
-In order, the following will be built (use -v for more details):
- - jago-0.1.0.0 (lib) (first run)
- - jago-0.1.0.0 (exe:jago) (first run)
-...
-```
-
-If you want to run jago, you can use `cabal run`:
-
-```console
-$ cabal run -- jago --help
-Up to date
-jago - simplified markup language to author HTML pages
-
-Usage: jago [-i|--input INPUT] [-o|--output OUTPUT]
-  Compile jago to html
-
-Available options:
-  -i,--input INPUT         Jago file acting as input
-  -o,--output OUTPUT       Output html file
-  -h,--help                Show this help text
-
-https://git.sr.ht/~yuki_is_bored/jago
-```
-
-If you want to install jago, simply use `cabal install`
-
-```console
-$ cabal install
-Wrote tarball sdist to
-/home/hs/work/jago/dist-newstyle/sdist/jago-0.1.0.0.tar.gz
-Resolving dependencies...
-Build profile: -w ghc-8.8.4 -O1
-In order, the following will be built (use -v for more details):
- - jago-0.1.0.0 (lib) (requires build)
- - jago-0.1.0.0 (exe:jago) (requires build)
-Starting     jago-0.1.0.0 (lib)
-Building     jago-0.1.0.0 (lib)
-...
 ```
 
 ## License
@@ -170,6 +107,6 @@ jago is free and open-source software licensed under the ISC license.
 * [pug] (Javascript): Simplified markup language used for HTML
   templating which inspires jago.
 
+[Stack]: https://haskellstack.org/
 [Nix]: https://nixos.org/nix
-[Cabal]: https://www.haskell.org/cabal/
 [pug]: https://pugjs.org/api/getting-started.html
