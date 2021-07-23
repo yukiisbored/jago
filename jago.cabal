@@ -1,14 +1,14 @@
 cabal-version:       >=1.10
 
 name:                jago
-version:             0.1.0.0
+version:             0.0.0
 synopsis:            Simplified markup language to author HTML pages
 description:         This project contains both the library and executable to compile a jago document to HTML
 license:             ISC
 license-file:        LICENSE
 author:              Muhammad Kaisar Arkhan
 maintainer:          hi@yukiisbo.red
-category:            Parsing
+category:            Language, Compiler
 build-type:          Simple
 extra-source-files:  CHANGELOG.md
 
@@ -21,7 +21,9 @@ library
   default-extensions: OverloadedStrings
   hs-source-dirs:     Lib
   exposed-modules:    Jago.Parser,
-                      Jago.Html,
+                      Jago.AST,
+                      Jago.Render.Html,
+                      Jago.Compiler,
                       Jago
   other-modules:
   build-depends:      base >= 4.13 && < 5,

@@ -1,13 +1,14 @@
 -- |
--- This module parses a Jago document and returns a Html
--- representation defined in `Jago.Html`.
+-- This module parses a Jago document to an HTML representation
+-- defined in @Jago.AST@
 module Jago.Parser
   ( parse
   ) where
 
 import           Control.Monad                  ( void )
 import qualified Data.Text                     as T
-import           Jago.Html                      ( Attribute
+import           Jago.AST                       ( Attribute
+                                                , Document
                                                 , Html(Element, Text)
                                                 )
 import           Text.Parsec                    ( (<?>)
@@ -99,9 +100,9 @@ html :: Parser Html
 html = lexeme $ element <|> literal
 
 -- | Document definition
-document :: Parser [Html]
+document :: Parser Document
 document = sc *> many html <* eof
 
--- | Parse jago document to AST representation defined in @Jago.Html@
-parse :: FilePath -> T.Text -> Either ParseError [Html]
+-- | Parse jago document to AST representation defined in @Jago.AST@
+parse :: FilePath -> T.Text -> Either ParseError Document
 parse = runIndentParser document ()

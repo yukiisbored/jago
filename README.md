@@ -2,11 +2,6 @@
 
 jago is a simplified markup language to author HTML pages.
 
-This project includes both the executable which provides a
-command-line interface that produces HTML files from jago markup files
-and the library that work on parsing, translating and produce the
-resulting HTML file.
-
 ## Taste of jago
 
 Confused? Here's an annotated version of this example: [`sample.jago`](./sample.jago)
@@ -58,7 +53,7 @@ html [lang="en"]
         " markup language."
 ```
 
-## Using jago
+## Use
 
 ```console
 $ jago --input sample.jago --output sample.html
@@ -67,7 +62,7 @@ $ cat sample.html
 ...
 ```
 
-## Building jago
+## Build
 
 ### With [Stack]
 
@@ -151,6 +146,32 @@ Available options:
 https://git.sr.ht/~yuki_is_bored/jago
 ```
 
+[Stack]: https://haskellstack.org/
+[Nix Flake]: https://www.tweag.io/blog/2020-05-25-flakes/
+[Nix]: https://nixos.org/nix
+
+## Contents
+
+This repository contains the [Compiler] for Jago which utilizes the
+following components:
+
+- [Parser] which takes a Jago document turn it into an [AST]
+  representation of an HTML document.
+- [Render] which takes an [AST] representation and renders it out to
+  an HTML document readable by web browsers.
+
+The structure of the project allows for the use of multiple renderers,
+like a code formatter, a minified render, etc.
+
+Currently, only a HTML render is available. The output of it can be
+further minified by more mature minifiers such as [html-minifier].
+
+[Compiler]: ./Lib/Jago/Compiler.hs
+[Parser]: ./Lib/Jago/Parser.hs
+[AST]: ./Lib/Jago/AST.hs
+[Renderer]: ./Lib/Jago/Render/Html.hs
+[html-minifier]: https://github.com/kangax/html-minifier
+
 ## License
 
 jago is free and open-source software licensed under the ISC license.
@@ -160,7 +181,4 @@ jago is free and open-source software licensed under the ISC license.
 * [pug] (Javascript): Simplified markup language used for HTML
   templating which inspires jago.
 
-[Stack]: https://haskellstack.org/
-[Nix]: https://nixos.org/nix
 [pug]: https://pugjs.org/api/getting-started.html
-[Nix Flake]: https://www.tweag.io/blog/2020-05-25-flakes/
