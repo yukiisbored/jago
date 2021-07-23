@@ -1,15 +1,18 @@
--- | Parser that parses jago
+-- |
+-- This module parses a Jago document and returns a Html
+-- representation defined in `Jago.Html`.
 module Jago.Parser
-  ( parser
+  ( parse
   ) where
 
-import           Jago.Html                      ( Html(HtmlLiteral, HtmlTag)
-                                                , HtmlAttribute
-                                                )
 import           Control.Monad                  ( void )
 import qualified Data.Text                     as T
+import           Jago.Html                      ( Attribute
+                                                , Html(Element, Text)
+                                                )
 import           Text.Parsec                    ( (<?>)
                                                 , (<|>)
+                                                , ParseError
                                                 , alphaNum
                                                 , anyChar
                                                 , between
@@ -26,10 +29,11 @@ import           Text.Parsec                    ( (<?>)
                                                 )
 import           Text.Parsec.Indent             ( IndentParser
                                                 , indented
+                                                , runIndentParser
                                                 , withPos
                                                 )
 
--- | Parser definition which uses Text as stream
+-- | Indentation-sensitive parser for Jago
 type Parser a = IndentParser T.Text () a
 
 -- | Whitespace and comment definition
@@ -44,18 +48,18 @@ sc = choice [whitespace *> sc, comment *> sc, return ()]
 lexeme :: Parser a -> Parser a
 lexeme p = p <* sc
 
--- | Helper to identify symbols
+-- | Symbol helper
 symbol :: Char -> Parser ()
 symbol = void . lexeme . char
 
--- | Parse identifier
+-- | Identifier definition
 identifier :: Parser T.Text
 identifier = do
   id <- many1 ch
   return $ T.pack id
   where ch = alphaNum <|> char '-'
 
--- | Parse string with backticks or double-quotes
+-- | String definition
 string :: Parser T.Text
 string = string' (char '"') <|> string' (char '`') <?> "string"
  where
@@ -64,36 +68,40 @@ string = string' (char '"') <|> string' (char '`') <?> "string"
     str <- g *> manyTill anyChar (lexeme g)
     return $ T.pack str
 
--- | Parse attribute
-attribute :: Parser HtmlAttribute
+-- | Attribute definition
+attribute :: Parser Attribute
 attribute = do
   k <- identifier <* symbol '=' <?> "attribute name"
   v <- string <?> "attribute value"
 
   return (k, v) <?> "attribute"
 
--- | Parse attributes
-attributes :: Parser [HtmlAttribute]
+-- | Attributes definition
+attributes :: Parser [Attribute]
 attributes =
   between (symbol '[') (symbol ']') (sepBy attribute sc) <?> "attributes"
 
--- | Parse literals
+-- | Literal definition
 literal :: Parser Html
-literal = lexeme (HtmlLiteral <$> string) <?> "literal text"
+literal = lexeme (Text <$> string) <?> "literal text"
 
--- | Parse tags
-tag :: Parser Html
-tag = withPos $ do
+-- | Tag definition
+element :: Parser Html
+element = withPos $ do
   name  <- lexeme identifier <?> "tag name"
   attrs <- lexeme $ option [] attributes
   child <- lexeme $ many $ indented *> html
 
-  return (HtmlTag name attrs child) <?> "tag"
+  return (Element name attrs child) <?> "tag"
 
--- | Parse html
+-- | Html definition
 html :: Parser Html
-html = lexeme $ tag <|> literal
+html = lexeme $ element <|> literal
 
--- | Parse jago documents
-parser :: Parser [Html]
-parser = sc *> many html <* eof
+-- | Document definition
+document :: Parser [Html]
+document = sc *> many html <* eof
+
+-- | Parse jago document to AST representation defined in @Jago.Html@
+parse :: FilePath -> T.Text -> Either ParseError [Html]
+parse = runIndentParser document ()

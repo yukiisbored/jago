@@ -21,7 +21,8 @@ library
   default-extensions: OverloadedStrings
   hs-source-dirs:     Lib
   exposed-modules:    Jago.Parser,
-                      Jago.Html
+                      Jago.Html,
+                      Jago
   other-modules:
   build-depends:      base >= 4.13 && < 5,
                       text >= 1.2 && < 1.3,

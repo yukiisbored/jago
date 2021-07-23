@@ -1,11 +1,10 @@
 module Main where
 
-import           Jago.Html                      ( translateDocument )
-import           Jago.Parser                    ( parser )
 import           Control.Applicative            ( (<**>) )
 import           Data.Maybe                     ( fromMaybe )
 import qualified Data.Text                     as T
 import qualified Data.Text.IO                  as TIO
+import           Jago                           ( compile )
 import           Options.Applicative            ( Parser
                                                 , execParser
                                                 , footer
@@ -44,10 +43,6 @@ config =
               "Output html file"
             )
           )
-
-compile :: FilePath -> T.Text -> Either ParseError T.Text
-compile path jago = translateDocument <$> documentMaybe
-  where documentMaybe = runIndentParser parser () path jago
 
 compileIO :: FilePath -> T.Text -> IO T.Text
 compileIO path jago = case compile path jago of
