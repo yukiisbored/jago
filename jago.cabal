@@ -3,7 +3,7 @@ cabal-version:       >=1.10
 name:                jago
 version:             0.1.0.0
 synopsis:            Simplified markup language to author HTML pages
-description:         This project contains both the library and executable to parse jago file and translate them into proper HTML
+description:         This project contains both the library and executable to compile a jago document to HTML
 license:             ISC
 license-file:        LICENSE
 author:              Muhammad Kaisar Arkhan
