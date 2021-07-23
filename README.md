@@ -169,7 +169,7 @@ further minified by more mature minifiers such as [html-minifier].
 [Compiler]: ./Lib/Jago/Compiler.hs
 [Parser]: ./Lib/Jago/Parser.hs
 [AST]: ./Lib/Jago/AST.hs
-[Renderer]: ./Lib/Jago/Render/Html.hs
+[Render]: ./Lib/Jago/Render/Html.hs
 [html-minifier]: https://github.com/kangax/html-minifier
 
 ## License
